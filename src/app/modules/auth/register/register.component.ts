@@ -30,16 +30,7 @@ export class RegisterComponent implements OnInit {
 
     if (this.username.invalid) return
 
-    let localUserData = JSON.parse(localStorage.getItem("users") as string)
-
-    if (!localUserData) {
-      this.authService.getUsersFromAPI().subscribe({
-        next: (value) => {
-          localUserData = value
-        }
-      })
-      localStorage.setItem("users", JSON.stringify(localUserData))
-    }
+    let localUserData = this.authService.getUsers()
 
     let localUser = localUserData.filter((user: { username: any }) => user.username === this.username.value)
 

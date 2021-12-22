@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { AuthService } from './modules/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'pokemon-trainers';
+  loggedIn$ = false
+
+  constructor(private authService: AuthService) {
+  }
+  
+  ngOnInit() {
+    this.authService.loggedIn$.subscribe(loggedIn => {
+      this.loggedIn$ = loggedIn
+    })
+    this.authService.checkAuthStatus()
+  }
 }
