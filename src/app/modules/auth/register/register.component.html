@@ -1,1 +1,10 @@
-<p>register works!</p>
+<div class="card p-2 text-center" style="width: 18rem;">
+    <p class="h4 m-1">Register a trainer</p>
+    <form class="align-self-center" (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+        <div class="form-group">
+            <input type="text" class="form-control m-2" formControlName="username" placeholder="Enter username">
+        </div>
+        <button type="submit" class="btn btn-primary m-2">Register</button>
+    </form>
+</div>
+
