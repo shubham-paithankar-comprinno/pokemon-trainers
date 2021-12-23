@@ -1,24 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './auth.guard';
-import { LogInComponent } from './log-in/log-in.component';
-import { RegisterComponent } from './register/register.component';
+import { LogInComponent } from './components/log-in/log-in.component';
 
 const routes: Routes = [
   {
     path: 'register',
-    component: RegisterComponent
+    loadChildren: () => import('./components/register/register.module')
+    .then(m => { return m.RegisterModule })
   },
   {
     path: 'logout',
-    loadChildren: () => import('./log-out/log-out.module')
+    loadChildren: () => import('./components/log-out/log-out.module')
     .then(m => { return m.LogOutModule })
-  },
-  {
-    path: 'catalogue',
-    loadChildren: () => import('../catalogue/catalogue.module')
-    .then(m => { return m.CatalogueModule }),
-    canLoad: [AuthGuard]
   },
   {
     path: '',

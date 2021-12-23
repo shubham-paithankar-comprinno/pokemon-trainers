@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, Router, UrlSegment, UrlTree } from '@angular/router';
+import { CanLoad, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,8 @@ export class AuthGuard implements CanLoad {
   constructor(private authService: AuthService, private router: Router) {
   }
 
-  canLoad(): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    this.loadable = this.authService.loggedIn$.value
+  canLoad(): boolean | Observable<boolean> | Promise<boolean> {
+    this.loadable = JSON.parse(sessionStorage.getItem("isLoggedIn") as string)
     if (this.loadable) {
       return true
     } else {

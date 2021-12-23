@@ -9,7 +9,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav nav justify-content-end">
                   <li class="nav-item">
-                    <a class="nav-link" routerLink="catalogue" routerLinkActive="active">Catalogue</a>
+                    <a class="nav-link" routerLink="catalogue" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Catalogue</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" routerLink="trainer" routerLinkActive="active">Trainer</a>

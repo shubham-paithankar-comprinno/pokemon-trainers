@@ -1,1 +1,7 @@
-<p>catalogue works!</p>
+<div class="container-fluid">
+    <h3>Pokemon Catalogue</h3>
+    <button (click)="onGenerate()" class="btn btn-success mb-2">Generate Random Pokemon</button>
+    <ng-container *ngIf="randomPokemon.length">
+        <app-pokemon-cards [pokemonData]="pokemonData"></app-pokemon-cards>
+    </ng-container>
+</div>

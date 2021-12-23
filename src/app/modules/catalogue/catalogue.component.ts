@@ -1,5 +1,26 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { PokemonService } from './services/pokemon.service';
+
+
+interface PokemonObject {
+  name: string,
+  url: string
+}
+
+interface PokemonData {
+  id: number,
+  name: string,
+  sprites: {
+    front_default: string
+  },
+  types: [
+    {
+      type: {
+        name: string
+      }
+    }
+  ]
+}
 
 @Component({
   selector: 'app-catalogue',
@@ -8,24 +29,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CatalogueComponent implements OnInit {
 
-  pokeAPI = `https://pokeapi.co/api/v2/pokemon?`
+  randomPokemon: Array<PokemonObject> = []
+  pokemonData: Array<PokemonData> = []
 
-  constructor(private httpClient: HttpClient) {
-    this.getRandomPokemon()
-   }
+  constructor(private pokemonService: PokemonService) {
+    this.onGenerate()
+  }
 
   ngOnInit(): void {
   }
 
-  getRandomPokemon() {
-    const randomNumber = Math.floor(Math.random() * (750 - 1) + 1)
-    this.httpClient.get(this.pokeAPI, {
-      params: {
-        limit: 10,
-        offset: randomNumber
-      }
-    }).subscribe(value => {
-      console.log(value)
+  onGenerate() {
+    this.pokemonService.getRandomPokemon().subscribe((value: any) => {
+      this.randomPokemon = value
+      this.pokemonData = this.pokemonService.getPokemonData(this.randomPokemon)
     })
   }
 }

@@ -5,17 +5,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthModule } from './modules/auth/auth.module';
 
-import { LogInComponent } from './modules/auth/log-in/log-in.component';
-import { RegisterComponent } from './modules/auth/register/register.component';
 import { SharedModule } from './modules/shared/shared.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LogInComponent,
-    RegisterComponent,
   ],
   imports: [
     BrowserModule,

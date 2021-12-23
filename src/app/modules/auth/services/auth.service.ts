@@ -19,6 +19,8 @@ export class AuthService {
 
   loggedIn$ = new BehaviorSubject(false)
 
+  currentUser = ''
+
   constructor(private httpClient: HttpClient) { }
 
   logInUser (username: string) {
@@ -29,6 +31,7 @@ export class AuthService {
       withCredentials: true
     }).pipe(
       tap(() => {
+        this.currentUser = username
         this.loggedIn$.next(true)
       })
     )
@@ -43,7 +46,12 @@ export class AuthService {
         'X-API-Key': this.API_Key
       },
       withCredentials: true
-    })
+    }).pipe(
+      tap(() => {
+        this.currentUser = ''
+        this.loggedIn$.next(false)
+      })
+    )
   }
 
   getUsers () {
@@ -62,7 +70,7 @@ export class AuthService {
   }
 
   checkAuthStatus() {
-    return this.loggedIn$.value
+    return JSON.parse(sessionStorage.getItem("isLoggedIn") as string)
   }
 
 }

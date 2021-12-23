@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-log-in',
@@ -36,8 +36,9 @@ export class LogInComponent implements OnInit {
       return
     } 
 
-    this.authService.logInUser(this.username.value).subscribe({
+    return this.authService.logInUser(this.username.value).subscribe({
       next: value => {
+        sessionStorage.setItem("isLoggedIn", JSON.stringify(this.authService.loggedIn$.value))
         this.router.navigateByUrl('/catalogue')
       },
       error: err => {
