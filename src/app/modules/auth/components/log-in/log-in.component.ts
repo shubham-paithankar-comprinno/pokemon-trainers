@@ -39,6 +39,7 @@ export class LogInComponent implements OnInit {
     return this.authService.logInUser(this.username.value).subscribe({
       next: value => {
         sessionStorage.setItem("isLoggedIn", JSON.stringify(this.authService.loggedIn$.value))
+        sessionStorage.setItem("currentUser", JSON.stringify(value[0]))
         this.router.navigateByUrl('/catalogue')
       },
       error: err => {

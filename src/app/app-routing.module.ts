@@ -8,7 +8,7 @@ const routes: Routes = [
     path: 'catalogue',
     loadChildren: () => import('./modules/catalogue/catalogue.module')
     .then(m => { return m.CatalogueModule }),
-    // canLoad: [AuthGuard]
+    canLoad: [AuthGuard]
   },
   {
     path: 'trainer',

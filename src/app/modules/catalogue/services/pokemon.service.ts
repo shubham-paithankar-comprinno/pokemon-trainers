@@ -7,6 +7,12 @@ interface PokemonObject {
   url: string
 }
 
+interface TrainerObject {
+  username: string,
+  pokemon: string[],
+  id: number
+}
+
 interface PokemonData {
   id: number,
   name: string,
@@ -29,9 +35,13 @@ export class PokemonService {
 
   pokeAPI = `https://pokeapi.co/api/v2/pokemon`
 
+  apiURL = `https://pokemon-noroff-api.herokuapp.com`
+  API_Key = `1XXwWjA3fe1LvasnV3ilB82ffOTJwzd2Eh0Ngsbbq9sj95g3s9K0lBd5S4gtpaBY`
+
   constructor(private httpClient: HttpClient) { }
 
   getRandomPokemon() {
+    let randomPokemon = JSON.parse(sessionStorage.getItem("randomPokemon") as string)
     const randomNumber = Math.floor(Math.random() * (750 - 1) + 1)
     return this.httpClient.get(`${this.pokeAPI}?`, {
       params: {
@@ -58,5 +68,20 @@ export class PokemonService {
       })
     })  
     return pokemonData
+  }
+  
+  addPokemonToUser(mon: string) {
+    let { id="", pokemon=[], username="" }  = JSON.parse(sessionStorage.getItem("currentUser") as string)
+    pokemon.push(mon)
+
+    return this.httpClient.patch<TrainerObject>(`${this.apiURL}/trainers/${id}`, {
+      id,
+      username,
+      pokemon
+    }, {
+      headers: {
+        'X-API-Key': this.API_Key
+      }
+    })
   }
 }

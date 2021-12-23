@@ -7,26 +7,11 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './log-out.component.html',
   styleUrls: ['./log-out.component.scss']
 })
-export class LogOutComponent implements OnInit {
+export class LogOutComponent {
 
   constructor(private authService: AuthService, private router: Router) {
-  }
-
-  ngOnInit(): void {
-    //Gives error in Dev Mode 
-    this.authService.loggedIn$.next(false)
-    sessionStorage.setItem("isLoggedIn", 'false')
+    this.authService.logOutUser()
     this.router.navigateByUrl('/')
-    return
   }
-
-  // ngAfterViewInit() : void {
-  // }
-
-  // ngOnChange() : void {
-  //   this.authService.loggedIn$.next(false)
-  //   this.router.navigateByUrl('/')
-  //   return
-  // }
-
+  
 }

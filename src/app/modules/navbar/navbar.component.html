@@ -1,0 +1,20 @@
+<nav class="navbar navbar-dark bg-dark">
+    <div class="navbar-brand">
+        <a class="m-2" routerLink="./">
+            <img style="width: 50px;" [src]="brandImage" alt="Pikachu face">
+        </a>
+    </div>
+    <ng-container *ngIf="isLoggedIn">
+        <ul class="navbar nav mx-1">
+            <li class="nav-item">
+                <a routerLink="catalogue" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Catalogue</a>
+            </li>
+            <li class="nav-item">
+                <a routerLink="trainer" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Trainer</a>
+            </li>
+            <li class="nav-item">
+                <a routerLink="logout" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Logout</a>
+            </li>
+        </ul>
+    </ng-container>
+</nav>

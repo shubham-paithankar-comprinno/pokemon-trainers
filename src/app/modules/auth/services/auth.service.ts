@@ -17,24 +17,27 @@ export class AuthService {
   apiURL = `https://pokemon-noroff-api.herokuapp.com`
   API_Key = `1XXwWjA3fe1LvasnV3ilB82ffOTJwzd2Eh0Ngsbbq9sj95g3s9K0lBd5S4gtpaBY`
 
-  loggedIn$ = new BehaviorSubject(false)
-
-  currentUser = ''
+  loggedIn$ = new BehaviorSubject(JSON.parse(sessionStorage.getItem("isLoggedIn") as string) ? JSON.parse(sessionStorage.getItem("isLoggedIn") as string) : false)
 
   constructor(private httpClient: HttpClient) { }
 
   logInUser (username: string) {
-    return this.httpClient.get(`${this.apiURL}/trainers?`, {
+    return this.httpClient.get<trainerResponse[]>(`${this.apiURL}/trainers?`, {
       params: {
         username
       }, 
       withCredentials: true
     }).pipe(
       tap(() => {
-        this.currentUser = username
         this.loggedIn$.next(true)
       })
     )
+  }
+
+  logOutUser () {
+    this.loggedIn$.next(false)
+    sessionStorage.setItem("isLoggedIn", JSON.stringify(this.loggedIn$.value))
+    sessionStorage.removeItem("currentUser")
   }
 
   registerUser(username: string) {
@@ -48,7 +51,6 @@ export class AuthService {
       withCredentials: true
     }).pipe(
       tap(() => {
-        this.currentUser = ''
         this.loggedIn$.next(false)
       })
     )

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { PokemonService } from '../../services/pokemon.service';
 
 interface PokemonData {
   id: number,
@@ -25,9 +26,15 @@ export class PokemonCardsComponent implements OnInit {
 
   @Input() pokemonData: PokemonData[] = []
 
-  constructor() { }
+  constructor(private pokemonService: PokemonService) { }
 
   ngOnInit(): void {
+  }
+
+  catchPokemon(pokemon: string){
+    this.pokemonService.addPokemonToUser(pokemon).subscribe(value => {
+      sessionStorage.setItem("currentUser", JSON.stringify(value))
+    })
   }
 
 }
