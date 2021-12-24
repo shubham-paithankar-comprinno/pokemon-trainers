@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, pluck } from 'rxjs';
+import { map, pluck, tap } from 'rxjs';
 
 interface PokemonObject {
   name: string,
+  url: string
 }
 
 interface TrainerObject {
@@ -39,15 +40,24 @@ export class PokemonService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getRandomPokemon() {
+  generateRandomPokemon() {
     const randomNumber = Math.floor(Math.random() * (750 - 1) + 1)
-    return this.httpClient.get<PokemonObject>(`${this.pokeAPI}?`, {
+    return this.httpClient.get<PokemonObject[]>(`${this.pokeAPI}?`, {
       params: {
         limit: 10,
-        offset: randomNumber
+        offset: 10
       }
     }).pipe(
       pluck('results') 
+    )
+  }
+
+  getRandomPokemon() {
+    return this.generateRandomPokemon()
+    .pipe(
+      tap((randomPokemon: any) => {
+        sessionStorage.setItem("randomPokemon", JSON.stringify(randomPokemon)) 
+      })
     )
   }
 
@@ -114,6 +124,18 @@ export class PokemonService {
         'X-API-Key': this.API_Key
       }
     })
+  }
+
+  trainerHasPokemon(trainerPokemon: string[], pokemonArray: PokemonObject[]) {
+    let indexPokemon: string[] = []
+    pokemonArray.forEach(mon => {
+      trainerPokemon.forEach(pokemon => {
+        if (pokemon === mon.name) {
+          indexPokemon.push(mon.name)
+        }
+      })
+    })
+    return indexPokemon
   }
 
   removeItem(arr: any[], value: any) { 
