@@ -13,7 +13,8 @@ const routes: Routes = [
   {
     path: 'trainer',
     loadChildren: () => import('./modules/trainer/trainer.module')
-    .then(m => { return m.TrainerModule })
+    .then(m => { return m.TrainerModule }),
+    canLoad: [AuthGuard]
   },
   {
     path: '',

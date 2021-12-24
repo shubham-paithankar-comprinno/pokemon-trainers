@@ -13,7 +13,7 @@ export class AuthComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this.loggedIn$ = JSON.parse(sessionStorage.getItem("isLoggedIn") as string)
+    this.loggedIn$ = JSON.parse((sessionStorage.getItem("isLoggedIn") as string)) ? JSON.parse((sessionStorage.getItem("isLoggedIn") as string)) : false
     if (this.loggedIn$) {
       this.router.navigateByUrl('/catalogue')
     }

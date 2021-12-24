@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
 
 interface trainerResponse {
@@ -21,7 +22,7 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient) { }
 
-  logInUser (username: string) {
+  logInUser(username: string) {
     return this.httpClient.get<trainerResponse[]>(`${this.apiURL}/trainers?`, {
       params: {
         username
@@ -34,7 +35,7 @@ export class AuthService {
     )
   }
 
-  logOutUser () {
+  logOutUser() {
     this.loggedIn$.next(false)
     sessionStorage.setItem("isLoggedIn", JSON.stringify(this.loggedIn$.value))
     sessionStorage.removeItem("currentUser")
@@ -56,7 +57,8 @@ export class AuthService {
     )
   }
 
-  getUsers () {
+
+  getUsers() {
     //Get users from local Data
     let localUsers = JSON.parse(localStorage.getItem("users") as string) 
     //If localdata is empty add users to it from trainer api 

@@ -70,8 +70,9 @@ export class PokemonService {
     return pokemonData
   }
   
-  addPokemonToUser(mon: string) {
-    let { id="", pokemon=[], username="" }  = JSON.parse(sessionStorage.getItem("currentUser") as string)
+  addPokemonToUser(mon: string, trainer: TrainerObject) {
+    let { id="", pokemon=[], username="" }  = trainer
+
     pokemon.push(mon)
 
     return this.httpClient.patch<TrainerObject>(`${this.apiURL}/trainers/${id}`, {
