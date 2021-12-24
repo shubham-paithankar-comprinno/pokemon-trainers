@@ -16,7 +16,7 @@ export class AuthGuard implements CanLoad {
     this.loadable = this.authService.loggedIn$.value
     if (this.loadable) {
       alert('You are already logged In')
-      this.router.navigateByUrl('/')
+      this.router.navigateByUrl('/trainer')
       return false
     } else {
       return true
