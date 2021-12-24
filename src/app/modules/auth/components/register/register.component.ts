@@ -30,26 +30,25 @@ export class RegisterComponent implements OnInit {
 
     if (this.username.invalid) return
 
-    let localUserData = this.authService.getUsers()
+    let localUserData = JSON.parse(localStorage.getItem("users") as string)
 
-    let localUser = localUserData.filter((user: { username: any }) => user.username === this.username.value)
+    let localUser = localUserData.filter((user: { username: string }) => user.username === this.username.value)
 
     if (localUser.length) {
-      alert('Username is taken')
+      alert('User already exist')
       return
-    }
+    } 
 
-    return this.authService.registerUser(this.username.value)
-    .subscribe({
-      next: (value) => {
+    return this.authService.registerUser(this.username.value).subscribe({
+      next: value => {
+        let localUserData = JSON.parse(localStorage.getItem("users") as string)
         localUserData.push({ username: value.username })
         localStorage.setItem("users", JSON.stringify(localUserData))
         this.router.navigateByUrl('/')
       },
-      error: (err) => {
+      error: err => {
         console.log(err)
       }
     })
   }
-
 }

@@ -40,9 +40,8 @@ export class PokemonService {
   constructor(private httpClient: HttpClient) { }
 
   getRandomPokemon() {
-    let randomPokemon = JSON.parse(sessionStorage.getItem("randomPokemon") as string)
     const randomNumber = Math.floor(Math.random() * (750 - 1) + 1)
-    return this.httpClient.get(`${this.pokeAPI}?`, {
+    return this.httpClient.get<PokemonObject>(`${this.pokeAPI}?`, {
       params: {
         limit: 10,
         offset: randomNumber

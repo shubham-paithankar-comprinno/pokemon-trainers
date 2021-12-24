@@ -61,18 +61,16 @@ export class AuthService {
 
 
   getUsers() {
-    //Get users from local Data
-    let localUsers = JSON.parse(localStorage.getItem("users") as string) 
-    //If localdata is empty add users to it from trainer api 
-    if (!localUsers.length) {
-      this.httpClient.get(`${this.apiURL}/trainers?`).subscribe({
-        next: (value) => {
-          localUsers = value
-        }
+    let localData: { username: string }[] = []
+    return this.httpClient.get<TrainerResponse[]>(`${this.apiURL}/trainers`)
+    .pipe(
+      tap(trainerArray => {
+        trainerArray.forEach(trainer => {
+          localData.push({ username: trainer.username })
+        })
+        localStorage.setItem("users", JSON.stringify(localData))
       })
-      localStorage.setItem("users", JSON.stringify(localUsers))
-    }
-    return localUsers
+    )
   }
 
   checkAuthStatus() {

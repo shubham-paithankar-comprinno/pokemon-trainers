@@ -3,6 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
+interface User {
+  username: string
+}
+
 @Component({
   selector: 'app-log-in',
   templateUrl: './log-in.component.html',
@@ -28,11 +32,12 @@ export class LogInComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.invalid) return
 
-    let localUserData = this.authService.getUsers()
-    let localUser = localUserData.filter((user: { username: any }) => user.username === this.username.value)
+    let localUserData = JSON.parse(localStorage.getItem("users") as string)
 
-    if (!localUser.length) {
-      alert('User does not exists')
+    let localUser = localUserData.filter((user: { username: string }) => user.username === this.username.value)
+
+    if (!localUser) {
+      alert('User does not exist')
       return
     } 
 
@@ -45,6 +50,6 @@ export class LogInComponent implements OnInit {
       error: err => {
         console.log(err)
       }
-    })
+    }) 
   }
 }
