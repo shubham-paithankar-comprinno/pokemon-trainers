@@ -55,6 +55,7 @@ export class AuthService {
     }).pipe(
       tap(() => {
         this.loggedIn$.next(false)
+        sessionStorage.setItem("isLoggedIn", JSON.stringify(this.loggedIn$.value))
       })
     )
   }

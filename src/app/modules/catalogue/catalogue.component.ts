@@ -57,9 +57,4 @@ export class CatalogueComponent implements OnInit {
       this.hasPokemon = this.pokemonService.trainerHasPokemon(this.trainer.pokemon, this.sessionRandomPokemon)
     })
   }
-
-  generateLocalPokemon() {
-    let sessionRandomPokemon = JSON.parse(sessionStorage.getItem("randomPokemon") as string)
-    this.pokemonData = this.pokemonService.getPokemonData(sessionRandomPokemon)
-  }
 }

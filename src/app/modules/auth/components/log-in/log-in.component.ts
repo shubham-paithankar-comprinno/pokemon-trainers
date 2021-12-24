@@ -36,7 +36,7 @@ export class LogInComponent implements OnInit {
 
     let localUser = localUserData.filter((user: { username: string }) => user.username === this.username.value)
 
-    if (!localUser) {
+    if (!localUser.length) {
       alert('User does not exist')
       return
     } 

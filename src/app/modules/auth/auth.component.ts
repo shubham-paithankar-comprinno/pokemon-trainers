@@ -14,8 +14,11 @@ export class AuthComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    this.authService.getUsers().subscribe(() => {})
-    this.loggedIn$ = JSON.parse((sessionStorage.getItem("isLoggedIn") as string)) ? JSON.parse((sessionStorage.getItem("isLoggedIn") as string)) : false
+    this.authService.getUsers().subscribe(() => {}) 
+    this.authService.loggedIn$.subscribe((value: boolean) => {
+      this.loggedIn$ = value
+    })
+    // this.loggedIn$ = JSON.parse((sessionStorage.getItem("isLoggedIn") as string)) ? JSON.parse((sessionStorage.getItem("isLoggedIn") as string)) : false
     if (this.loggedIn$) {
       this.router.navigateByUrl('/catalogue')
     }

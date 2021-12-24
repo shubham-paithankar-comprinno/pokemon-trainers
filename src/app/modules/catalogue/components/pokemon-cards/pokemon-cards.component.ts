@@ -52,6 +52,8 @@ export class PokemonCardsComponent implements OnInit {
 
     this.pokemonService.addPokemonToUser(pokemon, this.trainer).subscribe(value => {
       sessionStorage.setItem("currentUser", JSON.stringify(value))
+      alert(`Added ${value.pokemon[value.pokemon.length - 1]} to the party.`)
+      return
     })
   }
 
