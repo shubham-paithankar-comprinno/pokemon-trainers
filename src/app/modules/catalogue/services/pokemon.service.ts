@@ -4,7 +4,6 @@ import { map, pluck } from 'rxjs';
 
 interface PokemonObject {
   name: string,
-  url: string
 }
 
 interface TrainerObject {
@@ -69,6 +68,23 @@ export class PokemonService {
     })  
     return pokemonData
   }
+
+  getTrainerPokemonData(pokemonArray: string[]) {
+    let pokemonData: Array<PokemonData> = []
+    pokemonArray.forEach(pokemon => {
+      this.httpClient.get<PokemonData>(`${this.pokeAPI}/${pokemon}`)
+      .pipe( 
+        map((pokemonObject): PokemonData => {
+          const { id=0, name='', sprites={ front_default:'' }, types=[{ type: { name:'' } }] } = pokemonObject
+          return { id, name, sprites, types }
+        })
+      )
+      .subscribe(value => {
+        pokemonData.push(value)
+      })
+    })  
+    return pokemonData
+  }
   
   addPokemonToUser(mon: string, trainer: TrainerObject) {
     let { id="", pokemon=[], username="" }  = trainer
@@ -84,5 +100,28 @@ export class PokemonService {
         'X-API-Key': this.API_Key
       }
     })
+  }
+
+  removePokemonFromUser(mon: string, trainer: TrainerObject) {
+    let { id="", pokemon=[], username="" }  = trainer
+    pokemon = this.removeItem(pokemon, mon)
+
+    return this.httpClient.patch<TrainerObject>(`${this.apiURL}/trainers/${id}`, {
+      id,
+      username,
+      pokemon
+    }, {
+      headers: { 
+        'X-API-Key': this.API_Key
+      }
+    })
+  }
+
+  removeItem(arr: any[], value: any) { 
+    const index = arr.indexOf(value)
+    if (index > -1) {
+      arr.splice(index, 1)
+    }
+    return arr
   }
 }

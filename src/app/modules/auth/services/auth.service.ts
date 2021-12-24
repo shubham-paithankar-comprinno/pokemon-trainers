@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { BehaviorSubject, tap } from 'rxjs';
 
-interface trainerResponse {
+interface TrainerResponse {
   username: string,
   id: number,
   pokemon: []
@@ -18,18 +17,21 @@ export class AuthService {
   apiURL = `https://pokemon-noroff-api.herokuapp.com`
   API_Key = `1XXwWjA3fe1LvasnV3ilB82ffOTJwzd2Eh0Ngsbbq9sj95g3s9K0lBd5S4gtpaBY`
 
+  currentUser?: TrainerResponse
+
   loggedIn$ = new BehaviorSubject(JSON.parse(sessionStorage.getItem("isLoggedIn") as string) ? JSON.parse(sessionStorage.getItem("isLoggedIn") as string) : false)
 
   constructor(private httpClient: HttpClient) { }
 
   logInUser(username: string) {
-    return this.httpClient.get<trainerResponse[]>(`${this.apiURL}/trainers?`, {
+    return this.httpClient.get<TrainerResponse[]>(`${this.apiURL}/trainers?`, {
       params: {
         username
       }, 
       withCredentials: true
     }).pipe(
-      tap(() => {
+      tap((value) => {
+        this.currentUser = value[0]
         this.loggedIn$.next(true)
       })
     )
@@ -42,7 +44,7 @@ export class AuthService {
   }
 
   registerUser(username: string) {
-    return this.httpClient.post<trainerResponse>(`${this.apiURL}/trainers?`, {
+    return this.httpClient.post<TrainerResponse>(`${this.apiURL}/trainers?`, {
       username,
       pokemon: []
     }, {

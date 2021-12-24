@@ -1,1 +1,4 @@
-<p>trainer works!</p>
+<app-trainer-profile [currentUser]="currentUser"></app-trainer-profile>
+<ng-container *ngIf="currentUser.pokemon.length">
+    <app-trainer-pokemon></app-trainer-pokemon>
+</ng-container>

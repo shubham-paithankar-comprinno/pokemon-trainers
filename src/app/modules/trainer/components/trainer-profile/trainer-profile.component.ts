@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+interface TrainerObject {
+  username: string,
+  pokemon: string[],
+  id: number
+}
 
 @Component({
   selector: 'app-trainer-profile',
@@ -7,7 +13,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrainerProfileComponent implements OnInit {
 
-  constructor() { }
+  @Input() currentUser?: TrainerObject
+  
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
