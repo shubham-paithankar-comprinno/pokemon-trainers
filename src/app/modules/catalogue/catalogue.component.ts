@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/services/auth.service';
 import { PokemonService } from './services/pokemon.service';
 
 
@@ -41,11 +43,16 @@ export class CatalogueComponent implements OnInit {
 
   trainer: TrainerObject = JSON.parse(sessionStorage.getItem("currentUser") as string)
 
-  constructor(private pokemonService: PokemonService) {
+  constructor(private pokemonService: PokemonService, private authService: AuthService, private router: Router) {
     
   }
 
   ngOnInit(): void {
+    if (!this.trainer) {
+      this.authService.logOutUser()
+      this.router.navigateByUrl('/')
+      return 
+    }
     //Generate pokemon on load
     return this.onGenerate()
   }

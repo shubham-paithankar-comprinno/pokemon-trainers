@@ -8,6 +8,7 @@ import { AuthService } from '../services/auth.service';
 export class AuthGuard implements CanLoad {
 
   loadable = false
+  // currentUser = JSON.parse(sessionStorage.getItem("currentUser") as string)
 
   constructor(private authService: AuthService, private router: Router) {
   }
