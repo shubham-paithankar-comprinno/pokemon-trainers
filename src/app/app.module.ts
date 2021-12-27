@@ -7,12 +7,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AuthModule } from './modules/auth/auth.module';
-import { NavbarComponent } from './modules/navbar/navbar.component';
+import { CommonModuleModule } from './modules/common/common.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -20,6 +19,7 @@ import { NavbarComponent } from './modules/navbar/navbar.component';
     ReactiveFormsModule,
     HttpClientModule,
     AuthModule,
+    CommonModuleModule
   ],
   providers: [
   ],

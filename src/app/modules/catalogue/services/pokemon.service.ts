@@ -45,7 +45,7 @@ export class PokemonService {
     return this.httpClient.get<PokemonObject[]>(`${this.pokeAPI}?`, {
       params: {
         limit: 10,
-        offset: 10
+        offset: randomNumber
       }
     }).pipe(
       pluck('results') 
