@@ -14,11 +14,14 @@ export class AuthComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    //Call trainer api and store users object in localStorage
     this.authService.getUsers().subscribe(() => {}) 
+
+    //Check whether user is logged in through observable in auth service
     this.authService.loggedIn$.subscribe((value: boolean) => {
       this.loggedIn$ = value
     })
-    // this.loggedIn$ = JSON.parse((sessionStorage.getItem("isLoggedIn") as string)) ? JSON.parse((sessionStorage.getItem("isLoggedIn") as string)) : false
+    //If logged in redirect to catalogue page
     if (this.loggedIn$) {
       this.router.navigateByUrl('/catalogue')
     }

@@ -13,7 +13,7 @@ export class AuthGuard implements CanLoad {
   }
 
   canLoad(): boolean {
-    this.loadable = JSON.parse(sessionStorage.getItem("isLoggedIn") as string)
+    this.loadable = this.authService.loggedIn$.value
     if (this.loadable) {
       return true
     } else {

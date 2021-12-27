@@ -27,8 +27,7 @@ export class AuthService {
     return this.httpClient.get<TrainerResponse[]>(`${this.apiURL}/trainers?`, {
       params: {
         username
-      }, 
-      withCredentials: true
+      }
     }).pipe(
       tap((value) => {
         this.currentUser = value[0]
@@ -39,6 +38,7 @@ export class AuthService {
 
   logOutUser() {
     this.loggedIn$.next(false)
+    //Remove User and set logged in to false
     sessionStorage.setItem("isLoggedIn", JSON.stringify(this.loggedIn$.value))
     sessionStorage.removeItem("currentUser")
   }
@@ -50,8 +50,7 @@ export class AuthService {
     }, {
       headers: {
         'X-API-Key': this.API_Key
-      },
-      withCredentials: true
+      }
     }).pipe(
       tap(() => {
         this.loggedIn$.next(false)

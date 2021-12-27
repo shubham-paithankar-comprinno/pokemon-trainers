@@ -40,8 +40,8 @@ export class PokemonService {
 
   constructor(private httpClient: HttpClient) { }
 
-  generateRandomPokemon() {
-    const randomNumber = Math.floor(Math.random() * (750 - 1) + 1)
+  getRandomPokemon() {
+    const randomNumber = Math.floor(Math.random() * (1000 - 1) + 1)
     return this.httpClient.get<PokemonObject[]>(`${this.pokeAPI}?`, {
       params: {
         limit: 10,
@@ -49,15 +49,6 @@ export class PokemonService {
       }
     }).pipe(
       pluck('results') 
-    )
-  }
-
-  getRandomPokemon() {
-    return this.generateRandomPokemon()
-    .pipe(
-      tap((randomPokemon: any) => {
-        sessionStorage.setItem("randomPokemon", JSON.stringify(randomPokemon)) 
-      })
     )
   }
 

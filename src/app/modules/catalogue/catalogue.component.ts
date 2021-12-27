@@ -40,21 +40,24 @@ export class CatalogueComponent implements OnInit {
   hasPokemon: string[] = []
 
   trainer: TrainerObject = JSON.parse(sessionStorage.getItem("currentUser") as string)
-  sessionRandomPokemon = JSON.parse(sessionStorage.getItem("randomPokemon") as string)
 
   constructor(private pokemonService: PokemonService) {
     
   }
 
   ngOnInit(): void {
+    //Generate pokemon on load
     return this.onGenerate()
   }
 
+  //Generate random Pokemon 
   onGenerate() {
     this.pokemonService.getRandomPokemon().subscribe((value: any) => {
       this.randomPokemon = value
+      //Get pokemon data for randmly generated pokemon
       this.pokemonData = this.pokemonService.getPokemonData(this.randomPokemon)
-      this.hasPokemon = this.pokemonService.trainerHasPokemon(this.trainer.pokemon, this.sessionRandomPokemon)
+      //Check if trainer has any of the randomly generated pokemon
+      this.hasPokemon = this.pokemonService.trainerHasPokemon(this.trainer.pokemon, this.randomPokemon)
     })
   }
 }

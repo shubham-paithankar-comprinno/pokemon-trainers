@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LogInComponent } from './components/log-in/log-in.component';
-import { AuthGuard } from './guard/register.guard'
+import { RegisterGuard } from './guard/register.guard'
 
 const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./components/register/register.module')
     .then(m => { return m.RegisterModule }),
-    canLoad: [AuthGuard]
+    canLoad: [RegisterGuard]
   },
   {
     path: 'logout',

@@ -20,6 +20,7 @@ export class TrainerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //Log out user if current user is not found
     if(!this.currentUser) {
       this.authService.logOutUser()
     }

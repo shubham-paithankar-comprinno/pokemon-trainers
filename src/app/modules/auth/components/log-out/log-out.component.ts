@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 export class LogOutComponent {
 
   constructor(private authService: AuthService, private router: Router) {
+    //Log out user on coming to this route
     this.authService.logOutUser()
     this.router.navigateByUrl('/')
   }

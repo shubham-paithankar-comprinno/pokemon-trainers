@@ -30,10 +30,13 @@ export class RegisterComponent implements OnInit {
 
     if (this.username.invalid) return
 
+    //Get user data from localStorage
     let localUserData = JSON.parse(localStorage.getItem("users") as string)
 
+     //Filter the user from userdata
     let localUser = localUserData.filter((user: { username: string }) => user.username === this.username.value)
 
+    //If user exists in trainer api & local storage
     if (localUser.length) {
       alert('User already exist')
       return
@@ -41,8 +44,10 @@ export class RegisterComponent implements OnInit {
 
     return this.authService.registerUser(this.username.value).subscribe({
       next: value => {
+
         let localUserData = JSON.parse(localStorage.getItem("users") as string)
-        localUserData.push({ username: value.username })
+        //Add user to localStorage after adding to trainer api
+        localUserData.push({ username: value.username }) 
         localStorage.setItem("users", JSON.stringify(localUserData))
         this.router.navigateByUrl('/')
       },
